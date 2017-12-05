@@ -1,7 +1,5 @@
 "use strict";
 
-
-
 function runGame() {
   alert("Welcome to the weirdest game of dice!");
 }
@@ -9,23 +7,38 @@ function runGame() {
 function getUserInput() {
   let playerOneName= prompt("Enter Player One's Name:");
   let playerTwoName= prompt("Enter Player Two's Name:");
-  let playerOneIntake = 0;
-  let playerTwoIntake = 0;
   playerOneName = standardNameEntry(playerOneName);
   playerTwoName = standardNameEntry(playerTwoName);
- while(playerOneIntake < 5 && playerTwoIntake < 5){
-  turn(playerOneName);
-  playerOneIntake += checkActionPerformed();
-  turn(playerTwoName);
-  playerOneIntake += checkActionPerformed();
+
+  playGame(playerOneName, playerTwoName);
+  /* -------- checkActionPerformed(playerOneName, playerTwoName); -------  <---This is redundant because it is already being called in 'playGame' -- */
+
 }
+
+function playGame(playerOneName, playerTwoName) {
+  let playerOneActionNotPerformed = 0;
+  let playerTwoActionNotPerformed = 0;
+  while(playerOneActionNotPerformed < 5 && playerTwoActionNotPerformed < 5) {
+   turn(playerOneName);
+   playerOneActionNotPerformed += checkActionPerformed();
+   turn(playerTwoName);
+   playerTwoActionNotPerformed += checkActionPerformed();
+ }
+ if(playerOneActionNotPerformed === 5) {
+   let playerOneGameOver = prompt("Game Over! Player one lost!")
+ }
+ else if(playerTwoActionNotPerformed === 5) {
+   let playerTwoGameOver = prompt("Game Over! Player two lost!")
+ }
+}
+
+
 //ask if continue function
-function keepPlaying(turn) {
-   let dontStop = confirm("Do you want to keep playing?");
+function keepPlaying() {
+   let continueGame = confirm("Do you want to keep playing?");
 
  }
   //endGame();
-}
 
 function standardNameEntry(playerName) {
 
@@ -58,13 +71,23 @@ function turn(playerName){
 
 
 function checkActionPerformed() {
-let completeAction = prompt("Did the player complete the action?");
+  let count = 0;
+  let didAction = 0;
+  let didNotDoAction = 1;
+  let input;
+  for(let i = 0; input !== "y" && input !== "n"; i++){
+    if(i > 0){
+      alert("You must enter a 'y' or 'n'.")
+    }
+    input = prompt("Did the player complete the action? (Enter 'y' for yes and 'n' for no)");
+  }
   if(input === "y") {
-    return 0;
+    count = count + didAction;
   }
   else if(input === "n") {
-    return 1;
+    count = count + didNotDoAction;
   }
+  return count;
 }
 
 
