@@ -55,6 +55,7 @@ function playGame(playerOneName, playerTwoName) {
 // ask if players want to start a new game function
 function startPlayingAgain(playerOneName, playerTwoName) {
     let input;
+
     for(let i = 0; input !== "y" && input !== "n"; i++){
       if(i > 0){
         alert("You must enter a 'y' or 'n'.");
@@ -98,11 +99,8 @@ function turn(playerName){
   pickNextDice(tenSidedRollResult);
 }
 
-//
+// let's the player know what to do if an action was not performed and adds the number of actions in playGame
 function checkActionPerformed(playerName, unperformedActions) {
-  // let count = 0;
-  // let didAction = 0;
-  // let didNotDoAction = 0;
   let input;
 
   for(let i = 0; input !== "y" && input !== "n"; i++){
@@ -122,7 +120,7 @@ function checkActionPerformed(playerName, unperformedActions) {
   return unperformedActions;
 }
 
-
+// let's the player know what action die to roll
 function tellThePlayer10Roll(roll) {
   if(roll === 1 || roll === 6) {
     alert("You rolled a 1 or 6 and got Facial Expression Action! Now lets see what you will roll next!");
@@ -141,7 +139,7 @@ function tellThePlayer10Roll(roll) {
   }
 }
 
-
+// let's the player know which action die they are rolling and then what action to perform after the die is rolled
 function pickNextDice(roll) {
   //use if/else because of the "or" condition -- with individual results, try using a switch case
   if(roll === 1 || roll === 6) {
@@ -192,8 +190,6 @@ function chooseFacialAction(roll) {
     alert("You rolled a 4! Make a constipated face.");
   }
   //use a switch statment for the roll result if you want
-
-  //checkResult();
 }
 
 
@@ -217,8 +213,6 @@ function choosePhysicalAction(roll) {
     alert("You rolled a 6! Lightly slap the other player in the face.");
   }
   //use a switch statment for the roll result if you want
-
-  //checkResult();
 }
 
 
@@ -248,8 +242,6 @@ function chooseDrawingAction(roll) {
     alert("You rolled an 8! Draw a picture of a plane.");
   }
   //use a switch statment for the roll result if you want
-
-  //checkResult();
 }
 
 
@@ -291,8 +283,6 @@ function chooseSportsAction(roll) {
     alert("You rolled a 12! Act like you're playing catch with someone.");
   }
   //use a switch statment for the roll result if you want
-
-  //checkResult();
 }
 
 
@@ -358,11 +348,9 @@ function chooseExerciseAction(roll) {
     alert("You rolled a 20! Do 10 crunches");
   }
   //use a switch statment for the roll result if you want
-
-  //checkResult();
 }
 
-
+// generates a random number from the die
 function rollDie(numberOfSides) {
     return Math.floor(Math.random() * numberOfSides) + 1;
 }
