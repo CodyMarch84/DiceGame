@@ -1,45 +1,75 @@
 "use strict";
 
+
+// initiates the start of the game
 function runGame() {
   alert("Welcome to the weirdest game of dice!");
 }
 
+// enter the player's name to keep track of whose turn it is
 function getUserInput() {
-  let playerOneName= prompt("Enter Player One's Name:");
-  let playerTwoName= prompt("Enter Player Two's Name:");
+  let playerOneName = prompt("Enter Player One's Name:");
+  let playerTwoName = prompt("Enter Player Two's Name:");
+
+  for(let i = 0; playerOneName === ""; i++) {
+    if(i > 0) {
+      alert("You must enter a name.");
+      }
+      playerOneName = prompt("You must enter a name for player one.");
+    }
+  for(let i = 0; playerTwoName === ""; i++) {
+    if(i > 0) {
+      alert("You must enter a name.");
+    }
+    playerTwoName = prompt("You must enter a name for player two.");
+  }
   playerOneName = standardNameEntry(playerOneName);
   playerTwoName = standardNameEntry(playerTwoName);
-
   playGame(playerOneName, playerTwoName);
-  /* -------- checkActionPerformed(playerOneName, playerTwoName); -------  <---This is redundant because it is already being called in 'playGame' -- */
-
 }
 
+// keeps count of actions not performed to get to the end of the game
 function playGame(playerOneName, playerTwoName) {
   let playerOneActionNotPerformed = 0;
   let playerTwoActionNotPerformed = 0;
+
   while(playerOneActionNotPerformed < 5 && playerTwoActionNotPerformed < 5) {
-   turn(playerOneName);
-   playerOneActionNotPerformed += checkActionPerformed();
-   turn(playerTwoName);
-   playerTwoActionNotPerformed += checkActionPerformed();
- }
- if(playerOneActionNotPerformed === 5) {
-   let playerOneGameOver = prompt("Game Over! Player one lost!")
- }
- else if(playerTwoActionNotPerformed === 5) {
-   let playerTwoGameOver = prompt("Game Over! Player two lost!")
- }
+      turn(playerOneName);
+      playerOneActionNotPerformed = checkActionPerformed(playerOneName, playerOneActionNotPerformed);
+    if(playerOneActionNotPerformed < 5){
+      turn(playerTwoName);
+      playerTwoActionNotPerformed = checkActionPerformed(playerTwoName, playerTwoActionNotPerformed);
+    }
+  }
+
+  if(playerOneActionNotPerformed === 5) {
+    let playerOneGameOver = alert("Game Over! Player one lost! Take two sips of apple juice!");
+    startPlayingAgain(playerOneName, playerTwoName);
+  }
+  else if(playerTwoActionNotPerformed === 5) {
+    let playerTwoGameOver = alert("Game Over! Player two lost! Take two sips of apple juice!");
+    startPlayingAgain(playerOneName, playerTwoName);
+  }
 }
 
+// ask if players want to start a new game function
+function startPlayingAgain(playerOneName, playerTwoName) {
+    let input;
+    for(let i = 0; input !== "y" && input !== "n"; i++){
+      if(i > 0){
+        alert("You must enter a 'y' or 'n'.");
+        }
+        input = prompt("Do you want to play again? (Enter 'y' for yes and 'n' for no)");
+      }
+      if(input === "y") {
+        getUserInput();
+      }
+      else if(input === "n") {
 
-//ask if continue function
-function keepPlaying() {
-   let continueGame = confirm("Do you want to keep playing?");
+      }
+}
 
- }
-  //endGame();
-
+// updates the players name into proper noun form 'Name'
 function standardNameEntry(playerName) {
 
   playerName = playerName.toLowerCase();
@@ -53,41 +83,43 @@ function standardNameEntry(playerName) {
     let capitalizedName = capitalizedLetter + restOfName;
 
     capitalNamesArray.push(capitalizedName);
-    //nameArray[] = nameArray[i].charAt(0).toUpperCase() + nameArray[i].slice(1); //(does all the 'lets' in the ForLoop)
-  }
+    //nameArray[] = nameArray[i].charAt(0).toUpperCase() + nameArray[i].slice(1); //(does all the 'lets' in the ForLoop) ask mike about which loops to remove if used
+    }
     capPlayerName = capitalNamesArray.join(" ");
     return capPlayerName;
 }
 
-
+// lets the player know they are starting their turn to get their next action
 function turn(playerName){
-  alert(playerName + "'s turn.")
-  alert("Start your turn by rolling the 10-sided die to determine what action dice to roll.")
+  alert(playerName + "'s turn.");
+  alert("Start your turn by rolling the 10-sided die to determine what action dice to roll.");
   let tenSidedRollResult = rollDie(10);
   tellThePlayer10Roll(tenSidedRollResult);
   pickNextDice(tenSidedRollResult);
-  //askToEnd();
 }
 
-
-function checkActionPerformed() {
-  let count = 0;
-  let didAction = 0;
-  let didNotDoAction = 1;
+//
+function checkActionPerformed(playerName, unperformedActions) {
+  // let count = 0;
+  // let didAction = 0;
+  // let didNotDoAction = 0;
   let input;
+
   for(let i = 0; input !== "y" && input !== "n"; i++){
     if(i > 0){
-      alert("You must enter a 'y' or 'n'.")
+      alert("You must enter a 'y' or 'n'.");
+      }
+      input = prompt("Did the player complete the action? (Enter 'y' for yes and 'n' for no)");
     }
-    input = prompt("Did the player complete the action? (Enter 'y' for yes and 'n' for no)");
-  }
   if(input === "y") {
-    count = count + didAction;
+
   }
   else if(input === "n") {
-    count = count + didNotDoAction;
+    alert("You did not perform the action. Take a sip of apple juice.");
+    unperformedActions++;
+    console.log(playerName + " has " + unperformedActions + " action(s) not performed. If you get to 5 actions not performed, you lose!");
   }
-  return count;
+  return unperformedActions;
 }
 
 
@@ -150,11 +182,6 @@ function chooseFacialAction(roll) {
   if (roll === 1) {
     alert("You rolled a 1! Make an angry face!");
   }
-  //where to go next?
-  //varify P1 result with userinput from p2
-  //if yes, do this
-  //if no, do this
-
   else if (roll === 2) {
     alert("You rolled a 2! Make a sad face.");
   }
@@ -162,10 +189,11 @@ function chooseFacialAction(roll) {
     alert("You rolled a 3! Make a funny face!");
   }
   else if (roll === 4) {
-    alert("You rolled a 4! Make a constipated face.")
+    alert("You rolled a 4! Make a constipated face.");
   }
-  //else
   //use a switch statment for the roll result if you want
+
+  //checkResult();
 }
 
 
@@ -188,9 +216,9 @@ function choosePhysicalAction(roll) {
   else if (roll === 6) {
     alert("You rolled a 6! Lightly slap the other player in the face.");
   }
-  //else
+  //use a switch statment for the roll result if you want
 
-  //checkResult();//use a switch statment for the roll result if you want
+  //checkResult();
 }
 
 
@@ -219,7 +247,6 @@ function chooseDrawingAction(roll) {
   else if (roll === 8) {
     alert("You rolled an 8! Draw a picture of a plane.");
   }
-  //else
   //use a switch statment for the roll result if you want
 
   //checkResult();
@@ -331,6 +358,8 @@ function chooseExerciseAction(roll) {
     alert("You rolled a 20! Do 10 crunches");
   }
   //use a switch statment for the roll result if you want
+
+  //checkResult();
 }
 
 
