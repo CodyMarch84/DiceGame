@@ -11,13 +11,13 @@ function getUserInput() {
   let playerOneName = prompt("Enter Player One's Name:");
   let playerTwoName = prompt("Enter Player Two's Name:");
 
-  for(let i = 0; playerOneName === ""; i++) {
+  for(let i = 0; playerOneName === "" || playerOneName === null; i++) {
     if(i > 0) {
       alert("You must enter a name.");
       }
       playerOneName = prompt("You must enter a name for player one.");
     }
-  for(let i = 0; playerTwoName === ""; i++) {
+  for(let i = 0; playerTwoName === "" || playerTwoName === null; i++) {
     if(i > 0) {
       alert("You must enter a name.");
     }
@@ -27,6 +27,7 @@ function getUserInput() {
   playerTwoName = standardNameEntry(playerTwoName);
   playGame(playerOneName, playerTwoName);
 }
+getUserInput();
 
 // keeps count of actions not performed to get to the end of the game
 function playGame(playerOneName, playerTwoName) {
