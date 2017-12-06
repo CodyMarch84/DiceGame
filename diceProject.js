@@ -27,7 +27,7 @@ function getUserInput() {
   playerTwoName = standardNameEntry(playerTwoName);
   playGame(playerOneName, playerTwoName);
 }
-getUserInput();
+
 
 // keeps count of actions not performed to get to the end of the game
 function playGame(playerOneName, playerTwoName) {
